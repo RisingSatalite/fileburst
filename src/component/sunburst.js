@@ -61,20 +61,20 @@ const D3Chart = ({ data }) => {
 
     // Add text labels
     g.selectAll("text")
-  .data(root.descendants())
-  .enter()
-  .append("text")
-  .attr("transform", d => {
-    const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
-    const rotate = angle < 180 ? angle - 90 : angle + 90;  // Rotate text accordingly
-    const radius = (d.y0 + d.y1) / 2;  // Midpoint of the inner and outer radii
-    return `rotate(${rotate}) translate(${radius},0) rotate(${angle < 180 ? 0 : 180})`;  // Flip text on the left side
-  })
-  .attr("dx", "6")  // Move text slightly outwards
-  .attr("dy", "0.35em")  // Vertically center the text
-  .text(d => d.data.name)
-  .style("text-anchor", d => (d.x0 + d.x1) / 2 < Math.PI ? "start" : "end")  // Align text based on the side of the circle
-  .style("font-size", "10px");
+      .data(root.descendants())
+      .enter()
+      .append("text")
+      .attr("transform", d => {
+        const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
+        const rotate = angle < 180 ? angle - 90 : angle + 90;  // Rotate text accordingly
+        const radius = (d.y0 + d.y1) / 2;  // Midpoint of the inner and outer radii
+        return `rotate(${rotate}) translate(${radius},0) rotate(${angle < 180 ? 0 : 180})`;  // Flip text on the left side
+      })
+      .attr("dx", "6")  // Move text slightly outwards
+      .attr("dy", "0.35em")  // Vertically center the text
+      .text(d => d.data.name)
+      .style("text-anchor", d => (d.x0 + d.x1) / 2 < Math.PI ? "start" : "end")  // Align text based on the side of the circle
+      .style("font-size", "8px");
 
 
   }, [data]);

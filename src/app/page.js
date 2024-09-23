@@ -34,7 +34,9 @@ export default function Home() {
         id="fileInput"
       />
       <button onClick={() => document.getElementById('fileInput').click()}>Upload data</button>
-      <D3Chart data={data}/>  {/* Pass the parsed data to the D3Chart */}
+      <div className='bg-slate-200'>
+        <D3Chart data={data}/>  {/* Pass the parsed data to the D3Chart */}
+        </div>
     </div>
   );
 }
