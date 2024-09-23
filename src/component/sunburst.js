@@ -7,6 +7,7 @@ const D3Chart = ({ data }) => {
   const svgRef = useRef();
 
   useEffect(() => {
+    console.log("Data changed")
     const svg = d3.select(svgRef.current)
       .attr("width", 400)
       .attr("height", 200);
