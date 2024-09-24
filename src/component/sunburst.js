@@ -65,22 +65,19 @@ const D3Chart = ({ data }) => {
   .enter()
   .append("text")
   .attr("transform", d => {
-    const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle in degrees
+    const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
     const radius = (d.y0 + d.y1) / 2;  // Midpoint of radius
-    
-    // Text flip logic: only flip if the angle is between 90 and 270 degrees
-    const flip = angle > 90 && angle < 270 ? 180 : 0;
-    const rotate = angle + flip - 90;  // Adjusting to make text more aligned
-
-    // Apply the transformations: rotate to position text and flip it if needed
+    // Flip the text only if it's on the left side (>180 degrees), so it's upright
+    const flip = 0;//angle > 180 ? 180 : 0;
+    const rotate = angle - 90 + flip;
     return `rotate(${rotate}) translate(${radius},0) rotate(${flip})`;
   })
-  .attr("dx", d => (d.x0 + d.x1) / 2 * 180 / Math.PI > 90 && (d.x0 + d.x1) / 2 * 180 / Math.PI < 270 ? "-10px" : "10px")  // Fine-tuning the text position
+  .attr("dx", "5")  // Adjust this to move text closer to the start of the arc
   .attr("dy", "0.35em")  // Vertically center the text
-  .style("text-anchor", d => ((d.x0 + d.x1) / 2 * 180 / Math.PI > 90 && (d.x0 + d.x1) / 2 * 180 / Math.PI < 270) ? "end" : "start")  // Flip text anchor on the left side
+  .style("text-anchor", "start")  // Align text at the start of its block
   .text(d => d.data.name)
   .style("font-size", "10px")
-  .style("fill", "#fff");
+  .style("fill", "#fff");  // Set the text color to white for contrast
 
 
   }, [data]);
