@@ -72,7 +72,7 @@ const D3Chart = ({ data }) => {
     const rotate = angle - 90 + flip;
     return `rotate(${rotate}) translate(${radius},0) rotate(${flip})`;
   })
-  .attr("dx", "5")  // Adjust this to move text closer to the start of the arc
+  .attr("dx", "-35")  // Adjust this to move text closer to the start of the arc
   .attr("dy", "0.35em")  // Vertically center the text
   .style("text-anchor", "start")  // Align text at the start of its block
   .text(d => d.data.name)
