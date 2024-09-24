@@ -3,6 +3,10 @@
 import D3Chart from '@/component/sunburst';
 import { useState } from 'react';
 
+//Export libraries
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
+
 export default function Home() {
   const [data, setData] = useState(null);  // Start with null or an empty object/array
 
@@ -25,8 +29,31 @@ export default function Home() {
     reader.readAsText(file);  // Read the file as text
   };
 
+  const exportImage = () => {
+    domtoimage.toBlob(document.getElementById("d3chart"))
+    .then(function (blob) {
+        var FileSaver = require('file-saver');
+        FileSaver.saveAs(blob, 'fileburst.png');
+    });
+  }
+
+  const exportSVG = () => {
+    const node = document.getElementById("d3chart");
+
+    domtoimage.toSvg(node)
+    .then((dataUrl) => {
+      // Remove the `data:image/svg+xml;charset=utf-8,` prefix
+      const svgContent = dataUrl.replace(/^data:image\/svg\+xml;charset=utf-8,/, '');
+      const svgBlob = new Blob([svgContent], { type: 'image/svg+xml;charset=utf-8' });
+      saveAs(svgBlob, 'fileburst.svg');
+    })
+    .catch((error) => {
+      console.error('Error converting HTML to SVG:', error);
+    });
+  }
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+    <div>
       <input
         type="file"
         onChange={uploadData}
@@ -34,6 +61,8 @@ export default function Home() {
         id="fileInput"
       />
       <button onClick={() => document.getElementById('fileInput').click()}>Upload data</button>
+      <button onClick={exportImage}>Download PNG image</button>
+      <button onClick={exportSVG}>Download SVG image</button>
       <div className='bg-slate-200'>
         <D3Chart data={data}/>  {/* Pass the parsed data to the D3Chart */}
         </div>
