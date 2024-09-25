@@ -29,6 +29,9 @@ const D3Chart = ({ data }) => {
     const root = d3.hierarchy(data)
       .sum(d => d.size);
 
+    // root.value gives you the sum of the entire hierarchy (i.e., the root parent value)
+    const rootValue = root.value;  // This is the value of the root (the topmost parent)
+
     // Calculate the position of each segment
     partition(root);
 
@@ -50,12 +53,21 @@ const D3Chart = ({ data }) => {
         return scale((d.children ? d : d.parent).data.name);
       })
       .on("mouseover", function () {
-        d3.select(this).style("fill", "#ffcc00");
+        d3.select(this).style("fill", "#ffcc00")
+        .style("font-size", d => {return "10px";});
       })
       .on("mouseout", function () {
         d3.select(this).style("fill", d => {
           const scale = d3.scaleOrdinal(d3.schemeCategory10);
           return scale((d.children ? d : d.parent).data.name);
+        }).style("font-size", d => {
+          // Check if parent exists and compare child size with parent's size
+          if (d.parent && d.value < 0.1 * d.parent.value) {
+            return "0px";  // Hide text if child size is small compared to the parent
+          }else if(d.value < 0.05 *rootValue ){
+            return "0px"
+          }
+          return "10px";  // Default font size for larger nodes
         });
       });
 
@@ -67,17 +79,26 @@ const D3Chart = ({ data }) => {
   .attr("transform", d => {
     const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
     const radius = (d.y0 + d.y1) / 2;  // Midpoint of radius
-    // Flip the text only if it's on the left side (>180 degrees), so it's upright
-    const flip = 0;//angle > 180 ? 180 : 0;
+    const flip = 0; // angle > 180 ? 180 : 0;
     const rotate = angle - 90 + flip;
     return `rotate(${rotate}) translate(${radius},0) rotate(${flip})`;
   })
   .attr("dx", "-35")  // Adjust this to move text closer to the start of the arc
   .attr("dy", "0.35em")  // Vertically center the text
   .style("text-anchor", "start")  // Align text at the start of its block
+  .style("font-size", d => {
+    // Check if parent exists and compare child size with parent's size
+    if (d.parent && d.value < 0.1 * d.parent.value) {
+      return "0px";  // Hide text if child size is small compared to the parent
+    }else if(d.value < 0.05 *rootValue ){
+      return "0px"
+    }
+    return "10px";  // Default font size for larger nodes
+  })
   .text(d => d.data.name)
-  .style("font-size", "10px")
   .style("fill", "#fff");  // Set the text color to white for contrast
+
+
 
 
   }, [data]);

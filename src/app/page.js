@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div class="">
       <input
         type="file"
         onChange={uploadData}
@@ -63,7 +63,7 @@ export default function Home() {
       <button onClick={() => document.getElementById('fileInput').click()}>Upload data</button>
       <button onClick={exportImage}>Download PNG image</button>
       <button onClick={exportSVG}>Download SVG image</button>
-      <a href="/drive_data_collecter.zip" download="drive_data_collecter.zip">
+      <a href="/drive_data_collecter.exe" download="drive_data_collecter.exe">
         Click here to download data extractor
       </a>
       <div className='bg-slate-200'>
