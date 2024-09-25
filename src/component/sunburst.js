@@ -42,7 +42,7 @@ const D3Chart = ({ data }) => {
       .outerRadius(d => d.y1);
 
     // Draw the arcs for each node
-    g.selectAll("path")
+      g.selectAll("path")
       .data(root.descendants())
       .enter()
       .append("path")
@@ -52,54 +52,58 @@ const D3Chart = ({ data }) => {
         const scale = d3.scaleOrdinal(d3.schemeCategory10);
         return scale((d.children ? d : d.parent).data.name);
       })
-      .on("mouseover", function () {
-        d3.select(this).style("fill", "#ffcc00")
-        .style("font-size", d => {return "10px";});
+      .on("mouseover", function (event, d) {
+        // Change the fill color of the path
+        d3.select(this).style("fill", "#ffcc00");
+
+        // Change the font size of the corresponding text element
+        g.selectAll("text").filter(textD => textD === d)  // Find corresponding text
+          .style("font-size", "12px");  // Larger font size on hover
       })
-      .on("mouseout", function () {
+      .on("mouseout", function (event, d) {
         d3.select(this).style("fill", d => {
           const scale = d3.scaleOrdinal(d3.schemeCategory10);
           return scale((d.children ? d : d.parent).data.name);
-        }).style("font-size", d => {
-          // Check if parent exists and compare child size with parent's size
-          if (d.parent && d.value < 0.1 * d.parent.value) {
-            return "0px";  // Hide text if child size is small compared to the parent
-          }else if(d.value < 0.05 *rootValue ){
-            return "0px"
-          }
-          return "10px";  // Default font size for larger nodes
         });
+
+        // Reset the font size of the corresponding text element
+        g.selectAll("text").filter(textD => textD === d)
+          .style("font-size", d => {
+            // Check if the text should be hidden based on the value
+            if (d.parent && d.value < 0.1 * d.parent.value) {
+              return "0px";  // Hide text if small compared to parent
+            } else if (d.value < 0.05 * rootValue) {
+              return "0px";  // Hide text if small compared to root
+            }
+            return "10px";  // Default font size for larger nodes
+          });
       });
 
-    // Add text labels
-    g.selectAll("text")
-  .data(root.descendants())
-  .enter()
-  .append("text")
-  .attr("transform", d => {
-    const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
-    const radius = (d.y0 + d.y1) / 2;  // Midpoint of radius
-    const flip = 0; // angle > 180 ? 180 : 0;
-    const rotate = angle - 90 + flip;
-    return `rotate(${rotate}) translate(${radius},0) rotate(${flip})`;
-  })
-  .attr("dx", "-35")  // Adjust this to move text closer to the start of the arc
-  .attr("dy", "0.35em")  // Vertically center the text
-  .style("text-anchor", "start")  // Align text at the start of its block
-  .style("font-size", d => {
-    // Check if parent exists and compare child size with parent's size
-    if (d.parent && d.value < 0.1 * d.parent.value) {
-      return "0px";  // Hide text if child size is small compared to the parent
-    }else if(d.value < 0.05 *rootValue ){
-      return "0px"
-    }
-    return "10px";  // Default font size for larger nodes
-  })
-  .text(d => d.data.name)
-  .style("fill", "#fff");  // Set the text color to white for contrast
-
-
-
+      // Add text labels
+      g.selectAll("text")
+      .data(root.descendants())
+      .enter()
+      .append("text")
+      .attr("transform", d => {
+        const angle = (d.x0 + d.x1) / 2 * 180 / Math.PI;  // Midpoint angle
+        const radius = (d.y0 + d.y1) / 2;  // Midpoint of radius
+        const flip = 0;  // Flip condition can be added here
+        const rotate = angle - 90 + flip;
+        return `rotate(${rotate}) translate(${radius},0) rotate(${flip})`;
+      })
+      .attr("dx", "-35")
+      .attr("dy", "0.35em")
+      .style("text-anchor", "start")
+      .text(d => d.data.name)
+      .style("font-size", d => {
+        if (d.parent && d.value < 0.1 * d.parent.value) {
+          return "0px";  // Hide smaller text
+        } else if (d.value < 0.05 * rootValue) {
+          return "0px";  // Hide text based on root comparison
+        }
+        return "10px";  // Default font size for visible nodes
+      })
+      .style("fill", "#fff");
 
   }, [data]);
 
