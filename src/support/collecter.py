@@ -28,19 +28,27 @@ def build_file_tree(directory):
     try:
         # Iterate through the directory
         for entry in os.scandir(directory):
-            if entry.is_file():
-                file_size = get_file_size(entry.path)
-                item["children"].append({
-                    "name": entry.name,
-                    "size": file_size
-                })
-                item["size"] += file_size  # Accumulate the size for the folder
-            elif entry.is_dir():
-                # Recursively build the tree for subdirectories
-                subfolder = build_file_tree(entry.path)
-                item["children"].append(subfolder)
-                item["size"] += subfolder["size"]  # Add subfolder size
+            try:
+                if entry.is_file():
+                    file_size = get_file_size(entry.path)
+                    item["children"].append({
+                        "name": entry.name,
+                        "size": file_size
+                    })
+                    item["size"] += file_size  # Accumulate the size for the folder
+                elif entry.is_dir():
+                    # Recursively build the tree for subdirectories
+                    subfolder = build_file_tree(entry.path)
+                    item["children"].append(subfolder)
+                    item["size"] += subfolder["size"]  # Add subfolder size
 
+            except FileNotFoundError:
+                print(f"File not found: {entry.path}")
+            except PermissionError:
+                print(f"Permission denied: {entry.path}")
+
+    except FileNotFoundError:
+        print(f"Directory not found: {directory}")
     except PermissionError:
         # Handle any permission errors gracefully
         print(f"Permission denied: {directory}")
