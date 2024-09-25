@@ -72,7 +72,7 @@ const D3Chart = ({ data }) => {
             // Check if the text should be hidden based on the value
             if (d.parent && d.value < 0.1 * d.parent.value) {
               return "0px";  // Hide text if small compared to parent
-            } else if (d.value < 0.05 * rootValue) {
+            } else if (d.value < 0.01 * rootValue) {
               return "0px";  // Hide text if small compared to root
             }
             return "10px";  // Default font size for larger nodes
