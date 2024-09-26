@@ -53,20 +53,23 @@ export default function Home() {
   }
 
   return (
-    <div class="">
-      <input
-        type="file"
-        onChange={uploadData}
-        style={{ display: 'none' }}
-        id="fileInput"
-      />
-      <button onClick={() => document.getElementById('fileInput').click()}>Upload data</button>
-      <button onClick={exportImage}>Download PNG image</button>
-      <button onClick={exportSVG}>Download SVG image</button>
-      <a href="/drive_data_collecter.exe" download="drive_data_collecter.exe">
-        Click here to download data extractor
-      </a>
-      <div className='bg-slate-200'>
+    <div class="grid items-center justify-items-center">
+      <div>
+        <input
+          type="file"
+          onChange={uploadData}
+          style={{ display: 'none' }}
+          id="fileInput"
+        />
+        <button onClick={() => document.getElementById('fileInput').click()}>Upload data</button>
+        <button onClick={exportImage}>Download PNG image</button>
+        <button onClick={exportSVG}>Download SVG image</button>
+        <a href="/drive_data_collecter.exe" download="drive_data_collecter.exe">
+          Click here to download data extractor
+        </a>
+        <di class="block">If a extracted data is larger than 50 000 kb, it will take some time to load, try taking multiple folders then</di>
+      </div>
+      <div className='bg-slate-900'>
         <D3Chart data={data}/>  {/* Pass the parsed data to the D3Chart */}
         </div>
     </div>
