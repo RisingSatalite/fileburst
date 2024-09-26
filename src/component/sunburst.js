@@ -70,10 +70,10 @@ const D3Chart = ({ data }) => {
         g.selectAll("text").filter(textD => textD === d)
           .style("font-size", d => {
             // Check if the text should be hidden based on the value
-            if (d.parent && d.value < 0.1 * d.parent.value) {
-              return "0px";  // Hide text if small compared to parent
-            } else if (d.value < 0.01 * rootValue) {
+            if (d.value < 0.005 * rootValue) {
               return "0px";  // Hide text if small compared to root
+            } else if (d.parent && d.value < 0.1 * d.parent.value) {
+              //return "0px";  // Hide text if small compared to parent
             }
             return "10px";  // Default font size for larger nodes
           });
@@ -96,10 +96,10 @@ const D3Chart = ({ data }) => {
       .style("text-anchor", "start")
       .text(d => d.data.name)
       .style("font-size", d => {
-        if (d.parent && d.value < 0.1 * d.parent.value) {
-          return "0px";  // Hide smaller text
-        } else if (d.value < 0.05 * rootValue) {
+        if (d.value < 0.005 * rootValue) {
           return "0px";  // Hide text based on root comparison
+        } else if (d.parent && d.value < 0.1 * d.parent.value) {
+          //return "0px";  // Hide smaller text
         }
         return "10px";  // Default font size for visible nodes
       })
