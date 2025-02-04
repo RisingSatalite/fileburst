@@ -33,7 +33,7 @@ const D3Chart = ({ data }) => {
     const rootValue = root.value;  // This is the value of the root (the topmost parent)
 
     // This filters and remove values deemed too small
-    const threshold = root.value * 0.01;
+    const threshold = root.value * 0.001;
 
     // Filtered data
     const filteredNodes = root.descendants().filter(d => d.value >= threshold);
