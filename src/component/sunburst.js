@@ -32,6 +32,12 @@ const D3Chart = ({ data }) => {
     // root.value gives you the sum of the entire hierarchy (i.e., the root parent value)
     const rootValue = root.value;  // This is the value of the root (the topmost parent)
 
+    // This filters and remove values deemed too small
+    const threshold = root.value * 0.01;
+
+    // Filtered data
+    const filteredNodes = root.descendants().filter(d => d.value >= threshold);
+
     // Calculate the position of each segment
     partition(root);
 
@@ -43,7 +49,7 @@ const D3Chart = ({ data }) => {
 
     // Draw the arcs for each node
       g.selectAll("path")
-      .data(root.descendants())
+      .data(filteredNodes)
       .enter()
       .append("path")
       .attr("d", arc)
@@ -73,7 +79,7 @@ const D3Chart = ({ data }) => {
             if (d.value < 0.005 * rootValue) {
               return "0px";  // Hide text if small compared to root
             } else if (d.parent && d.value < 0.1 * d.parent.value) {
-              //return "0px";  // Hide text if small compared to parent
+              return "0px";  // Hide text if small compared to parent
             }
             return "10px";  // Default font size for larger nodes
           });
@@ -98,8 +104,8 @@ const D3Chart = ({ data }) => {
       .style("font-size", d => {
         if (d.value < 0.005 * rootValue) {
           return "0px";  // Hide text based on root comparison
-        } else if (d.parent && d.value < 0.1 * d.parent.value) {
-          //return "0px";  // Hide smaller text
+        } else if (d.parent && d.value < 0.01 * d.parent.value) {
+          return "0px";  // Hide smaller text
         }
         return "10px";  // Default font size for visible nodes
       })
