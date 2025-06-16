@@ -50,7 +50,7 @@ google-auth==2.16.0
 google-auth-oauthlib==0.4.6
 google-pasta==0.2.0
 grpcio==1.51.1
-h11==0.14.0
+h11==0.16.0
 h5py==3.7.0
 HTMLParser==0.0.2
 hyperlink==21.0.0
