@@ -86,7 +86,7 @@ progress==1.6
 prompt-toolkit==3.0.38
 propcache==0.3.1
 Protego==0.2.1
-protobuf==3.19.6
+protobuf==4.25.8
 pure-eval==0.2.2
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
