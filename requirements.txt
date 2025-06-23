@@ -26,7 +26,7 @@ contourpy==1.0.6
 cssselect==1.2.0
 cycler==0.11.0
 decorator==5.1.1
-dnspython==2.6.1
+dnspython==2.7.0
 dnsrecon==0.10.1
 docutils==0.20.1
 et-xmlfile==1.1.0
