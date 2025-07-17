@@ -148,7 +148,7 @@ trio-websocket==0.10.3
 Twisted==24.7.0rc1
 twisted-iocpsupport==1.0.2
 typing_extensions==4.12.1
-urllib3==1.26.19
+urllib3==2.5.0
 w3lib==2.1.1
 wcwidth==0.2.6
 webrtcvad==2.0.10
