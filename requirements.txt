@@ -10,7 +10,7 @@ astunparse==1.6.3
 async-timeout==5.0.1
 attrs==22.2.0
 audiosegment==0.23.0
-Automat==22.10.0
+Automat==25.4.16
 autopep8==1.6.0
 backcall==0.2.0
 biopython==1.83
