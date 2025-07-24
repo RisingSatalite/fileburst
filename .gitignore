@@ -37,3 +37,6 @@ next-env.d.ts
 
 # python build files
 dist
+
+# python virtual environment
+myenv
