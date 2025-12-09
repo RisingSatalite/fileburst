@@ -67,8 +67,8 @@ export default function Home() {
         <a href="/drive_data_collecter.exe" download="drive_data_collecter.exe">
           Click here to download data extractor
         </a>
-        <div classname="block">If a extracted data is larger than 25 000 kb, it will take some time to load and may have limit functionality, try taking individual folders then</div>
-        <div classname="block">Really small data will be ignored for preformance</div>
+        <div className="block">If a extracted data is larger than 25 000 kb, it will take some time to load and may have limit functionality, try taking individual folders then</div>
+        <div className="block">Really small data will be ignored for preformance</div>
       </div>
       <div className='bg-slate-900'>
         <D3Chart data={data}/>  {/* Pass the parsed data to the D3Chart */}
