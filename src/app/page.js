@@ -53,7 +53,7 @@ export default function Home() {
   }
 
   return (
-    <div class="grid items-center justify-items-center">
+    <div className="grid items-center justify-items-center">
       <div>
         <input
           type="file"
